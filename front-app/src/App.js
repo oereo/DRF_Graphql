@@ -2,6 +2,8 @@ import React from 'react';
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {UserInfo} from './User'
+import LineDemo from './graph';
+
 
 const client = new ApolloClient({
     uri: 'http://localhost:8000/graphql_1/', // your GraphQL Server
@@ -19,11 +21,14 @@ const App = () => (
         }}>
             <h2>My first Apollo app 🚀</h2>
             <h3>Graphql</h3>
+
             <UserInfo/>
+            <LineDemo/>
 
         </div>
-    </ApolloProvider>
 
-);
+    </ApolloProvider>
+)
+;
 
 export default App;
