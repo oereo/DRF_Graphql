@@ -47,6 +47,7 @@ class Query(ObjectType):
 class ActorInput(graphene.InputObjectType):
     id = graphene.ID()
     name = graphene.String()
+    age = graphene.ID()
 
 
 class MovieInput(graphene.InputObjectType):
@@ -86,6 +87,7 @@ class UpdateActor(graphene.Mutation):
         if actor_instance:
             ok = True
             actor_instance.name = input.name
+            actor_instance.age = input.name
             actor_instance.save()
             return UpdateActor(ok=ok, actor=actor_instance)
         return UpdateActor(ok=ok, actor=None)

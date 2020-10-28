@@ -3,14 +3,24 @@
     "model": "practice_graphql.actor",
     "pk": 1,
     "fields": {
-      "name": "Michael B. Jordan"
+      "name": "Michael B. Jordan",
+      "age": 25
     }
   },
   {
     "model": "practice_graphql.actor",
     "pk": 2,
     "fields": {
-      "name": "Sylvester Stallone"
+      "name": "Sylvester Stallone",
+      "age": 45
+    }
+  },
+  {
+    "model": "practice_graphql.actor",
+    "pk": 3,
+    "fields": {
+      "name": "Sylvester django",
+      "age": 39
     }
   },
   {
@@ -18,7 +28,7 @@
     "pk": 1,
     "fields": {
       "title": "Creed",
-      "actors": [1, 2],
+      "actors": [1, 2, 3],
       "year": "2015"
     }
   }
