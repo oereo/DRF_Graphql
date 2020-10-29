@@ -1,7 +1,6 @@
 import React from 'react';
 import {useQuery} from 'react-apollo';
 import {gql} from 'apollo-boost';
-import { Line } from 'react-chartjs-2';
 
 const QUERY_USERS = gql`
   query {
@@ -13,7 +12,7 @@ const QUERY_USERS = gql`
 }
 `;
 
-const data = {
+const data1 = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
     {
@@ -39,21 +38,6 @@ const data = {
     }
   ]
 };
-// export default class LineDemo extends Component {
-//   render() {
-//     return (
-//       <div>
-//         <h2>Line Example</h2>
-//         <Line ref="chart" data={data} />
-//       </div>
-//     );
-//   }
-//
-//   componentDidMount(){
-//     const { datasets } = this.refs.chart.chartInstance.data
-//     console.log(datasets[0].data);
-//   };
-
 
 export function UserInfo() {
     // Polling: provides near-real-time synchronization with
@@ -64,24 +48,14 @@ export function UserInfo() {
             pollInterval: 500 // refetch the result every 0.5 second
         }
     );
-// export default class LineDemo extends Component {
-//   render() {
-//     return (
-//       <div>
-//         <h2>Line Example</h2>
-//         <Line ref="chart" data={data} />
-//       </div>
-//     );
-//   }
-    // should handle loading status
+
     if (loading) return <p>Loading...</p>;
     // <QUERY_USERS query={GET_CONTINENTS}>
-        return data.actors.map(({id, name, age}) => (
+        return data.actors.map(({id, name}) => (
         <div key={id}>
             <p>
                 User - {id}: {name}
             </p>
-            <Line ref="chart" data={data} />
         </div>
         ));
     // </QUERY_USERS>
