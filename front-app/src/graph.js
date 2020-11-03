@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import { Line } from 'react-chartjs-2';
+/*jshint esversion: 6 */
+import React from 'react';
+import {Line} from 'react-chartjs-2';
 
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -28,18 +29,13 @@ const data = {
   ]
 };
 
-export default class LineDemo extends Component {
-  render() {
-    return (
-      <div>
-        <h2>Line Example</h2>
-        <Line ref="chart" data={data} />
-      </div>
-    );
-  }
-
-  componentDidMount() {
-    const { datasets } = this.refs.chart.chartInstance.data
-    console.log(datasets[0].data);
-  }
-}
+export default () => (
+  <div>
+    <h2>Line Example</h2>
+    <Line
+      data={data}
+      width={400}
+      height={400}
+    />
+  </div>
+);

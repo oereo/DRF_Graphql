@@ -2,11 +2,11 @@ import React from 'react';
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {UserInfo} from './User'
-import LineDemo from './graph';
+import {graphql} from './graph'
 
 
 const client = new ApolloClient({
-    uri: 'http://localhost:8000/graphql_1/', // your GraphQL Server
+    uri: 'http://0.0.0.0:8100/graphql_1/', // your GraphQL Server
 });
 
 const App = () => (
@@ -23,7 +23,6 @@ const App = () => (
             <h3>Graphql</h3>
 
             <UserInfo/>
-            <LineDemo/>
 
         </div>
 

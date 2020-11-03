@@ -9,7 +9,6 @@ import LineChart from './graph'
 ReactDOM.render(
     <React.StrictMode>
         <App/>
-        // <LineChart/>
     </React.StrictMode>,
     document.getElementById('root')
 );
