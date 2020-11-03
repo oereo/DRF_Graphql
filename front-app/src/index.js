@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import MultiAxisLine from './graph';
 import * as serviceWorker from './serviceWorker';
 import LineChart from './graph'
 
@@ -9,6 +10,7 @@ import LineChart from './graph'
 ReactDOM.render(
     <React.StrictMode>
         <App/>
+        <MultiAxisLine/>
     </React.StrictMode>,
     document.getElementById('root')
 );

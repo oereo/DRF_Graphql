@@ -1,41 +1,85 @@
-/*jshint esversion: 6 */
 import React from 'react';
-import {Line} from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
+import {gql} from "apollo-boost";
+import {useQuery} from 'react-apollo';
+
+const QUERY_USERS = gql`
+  query {
+    gathering {
+        id
+        address
+        viewCount
+        reportCount
+        created
+    }
+}
+`;
+
+const {data_graph, loading} = useQuery(
+        QUERY_USERS, {
+            pollInterval: 2000 // refetch the result every 0.5 second
+        }
+    );
 
 const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  labels: ['1', '2', '3', '4', '5', '6'],
   datasets: [
     {
-      label: 'My First dataset',
+      label: '# of Votes',
+      data: [],
       fill: false,
-      lineTension: 0.1,
-      backgroundColor: 'rgba(75,192,192,0.4)',
-      borderColor: 'rgba(75,192,192,1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(75,192,192,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
-      data: [65, 59, 80, 81, 56, 55, 40]
-    }
-  ]
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgba(255, 99, 132, 0.2)',
+      yAxisID: 'y-axis-1',
+    },
+    {
+      label: '# of No Votes',
+      data: [1, 2, 1, 1, 2, 2],
+      fill: false,
+      backgroundColor: 'rgb(54, 162, 235)',
+      borderColor: 'rgba(54, 162, 235, 0.2)',
+      yAxisID: 'y-axis-2',
+    },
+  ],
 };
 
-export default () => (
-  <div>
-    <h2>Line Example</h2>
-    <Line
-      data={data}
-      width={400}
-      height={400}
-    />
-  </div>
-);
+const options = {
+  scales: {
+    yAxes: [
+      {
+        type: 'linear',
+        display: true,
+        position: 'left',
+        id: 'y-axis-1',
+      },
+      {
+        type: 'linear',
+        display: true,
+        position: 'right',
+        id: 'y-axis-2',
+        gridLines: {
+          drawOnArea: false,
+        },
+      },
+    ],
+  },
+};
+
+const MultiAxisLine = data_graph.gathering.map(({id, address, viewCount, reportCount, created}) => (
+  <>
+    <div className='header'>
+      <h1 className='title'>Multi Axis Line Chart</h1>
+      <div className='links'>
+        <a
+          className='btn btn-gh'
+          href='https://github.com/jerairrest/react-chartjs-2/blob/react16/example/src/charts/MultiAxisLine.js'
+        >
+          Github Source
+        </a>
+      </div>
+    </div>
+    <Line data={data} options={options} />
+  </>
+))
+
+export default MultiAxisLine

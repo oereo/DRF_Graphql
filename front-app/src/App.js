@@ -2,11 +2,10 @@ import React from 'react';
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {UserInfo} from './User'
-import {graphql} from './graph'
-
+import {MultiAxisLine} from './graph'
 
 const client = new ApolloClient({
-    uri: 'http://0.0.0.0:8100/graphql_1/', // your GraphQL Server
+    uri: 'http://127.0.0.1:8000/graphql', // your GraphQL Server
 });
 
 const App = () => (
