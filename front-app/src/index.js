@@ -10,7 +10,7 @@ import LineChart from './graph'
 ReactDOM.render(
     <React.StrictMode>
         <App/>
-        <MultiAxisLine/>
+        {/*<MultiAxisLine/>*/}
     </React.StrictMode>,
     document.getElementById('root')
 );
