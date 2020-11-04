@@ -22,6 +22,8 @@ const QUERY_USERS = gql`
         viewCount
         reportCount
         created
+        purpose
+        showBlock
     }
 }
 `;
@@ -36,22 +38,31 @@ function UserInfo() {
         }
     );
 
-    // for (let i = 0; i < data.length; i++) {
-    // console.log(data);
-    // num = data[3];
-    // }
+    var len_online = 0;
+    var len_offline = 0;
 
     // should handle loading status
     if (loading) return <p>Loading...</p>;
-    return data.gathering.map(({id, address, viewCount, reportCount, created}) => (
-        num.concat(viewCount),
+    const len = data.gathering.length
+
+    function filtering() {
+        for (let i = 0; i < data.gathering.length; i++) {
+            if (data.gathering.purpose === 'ONLINE') len_online++;
+            if (data.gathering.purpose === 'OFFLINE') len_offline++;
+        }
+    }
+    filtering()
+
+    return data.gathering.map(({id, address, viewCount, reportCount, created, purpose, showBlock}) => (
+
         <li key={id}>
-            {/*<li>*/}
-                Gathering - {id}: {viewCount}- {reportCount} - {address} - {created}
-            {/*    {viewCount}*/}
-            {/*</li>*/}
-            {/*<Bar data={g2c.data} />*/}
+            {len_online}
+            {len_offline}
+            {len}
+            Gathering - {id}: {viewCount}- {reportCount} - {address} - {created} - {purpose}- {showBlock}
+
         </li>
+
     ));
 }
 
@@ -61,7 +72,7 @@ const data = {
     datasets: [
         {
             label: '# of Votes',
-            data: num,
+            data: [],
             fill: false,
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgba(255, 99, 132, 0.2)',
@@ -101,7 +112,6 @@ const options = {
 };
 
 
-
 const App = () => (
         <ApolloProvider client={client}>
             <div style={{
@@ -117,7 +127,7 @@ const App = () => (
 
                 {/*<button onclick={UserInfo.bind(this)}>dfa</button>*/}
                 <UserInfo/>
-                <Line data={data} options={options}/>
+                {/*<Line data={data} options={options}/>*/}
                 {/*<UserInfo_test/>*/}
             </div>
 
