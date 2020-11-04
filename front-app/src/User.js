@@ -1,7 +1,6 @@
 import React from 'react';
 import {useQuery} from 'react-apollo';
 import {gql} from 'apollo-boost';
-import {Bar} from 'react-chartjs-2';
 
 const QUERY_USERS = gql`
   query {
@@ -25,17 +24,17 @@ export function UserInfo() {
         }
     );
 
-
+    var num = [];
     // should handle loading status
     if (loading) return <p>Loading...</p>;
-
-
     return data.gathering.map(({id, address, viewCount, reportCount, created}) => (
-        <div key={id}>
-            <p>
-                Gathering - {id}: {viewCount}- {reportCount} - {address} - {created}
-            </p>
+        // num = {viewCount}
+        <li key={id}>
+            {/*<li>*/}
+            {/*    /!*Gathering - {id}: {viewCount}- {reportCount} - {address} - {created}*!/*/}
+                {viewCount}
+            {/*</li>*/}
             {/*<Bar data={g2c.data} />*/}
-        </div>
+        </li>
     ));
 }
