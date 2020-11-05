@@ -42,7 +42,7 @@ const QUERY_USERS = gql`
 }
 `;
 
-function UserInfo() {
+function GatheringInfo() {
     // Polling: provides near-real-time synchronization with
     // your server by causing a query to execute periodically
     // at a specified interval
@@ -57,31 +57,27 @@ function UserInfo() {
 
     // should handle loading status
     if (loading) return <p>Loading...</p>;
-    const len = data.gathering.length
 
-    function filtering() {
-        for (let i = 0; i < data.gathering.length; i++) {
-            if (data.gathering.purpose === 'ONLINE') len_online++;
-            if (data.gathering.purpose === 'OFFLINE') len_offline++;
-        }
-    }
+    // function filtering() {
+    //     for (let i = 0; i < data.gathering.length; i++) {
+    //         if (data.gathering.purpose === 'ONLINE') len_online++;
+    //
+    //         if (data.gathering.purpose === 'OFFLINE') len_offline++;
+    //     }
+    // }
 
-    filtering()
+    // filtering();
 
     return data.gathering.map(({id, address, viewCount, reportCount, created, purpose, showBlock}) => (
 
-        <li key={id}>
-            {len_online}
-            {len_offline}
-            {len}
-            Gathering - {id}: {viewCount}- {reportCount} - {address} - {created} - {purpose}- {showBlock}
-
-        </li>
+            <li key={id}>
+                Gathering - {id}: {viewCount}- {reportCount} - {address} - {created} - {purpose}- {showBlock}
+            </li>
 
     ));
 }
 
-function UserInfo2() {
+function TodayPostInfo() {
     // Polling: provides near-real-time synchronization with
     // your server by causing a query to execute periodically
     // at a specified interval
@@ -91,25 +87,25 @@ function UserInfo2() {
         }
     );
 
-    var len_online = 0;
-    var len_offline = 0;
+    // const movies = data.posta.filter(item => item.topic === 'gath')
+    // const moviesCount = movies.length;
 
     // should handle loading status
     if (loading) return <p>Loading...</p>;
-
+    const rebels = data.posta.filter(data => data.topic === "gath");
 
     return data.posta.map(({id, created, topic, showBlock}) => (
+        {rebels},
+            <li key={id}>
 
-        <li key={id}>
+                post - {id}: {created} - {topic} - {showBlock}
 
-            post - {id}: {created} - {topic} - {showBlock}
-
-        </li>
+            </li>
 
     ));
 }
 
-function UserInfo3() {
+function AmonthAllPost() {
     // Polling: provides near-real-time synchronization with
     // your server by causing a query to execute periodically
     // at a specified interval
@@ -142,6 +138,25 @@ function UserInfo3() {
         </li>
 
     ));
+}
+
+function AllCount() {
+    // Polling: provides near-real-time synchronization with
+    // your server by causing a query to execute periodically
+    // at a specified interval
+    const {data, loading} = useQuery(
+        QUERY_USERS, {
+            pollInterval: 2000 // refetch the result every 0.5 second
+        }
+    );
+    if (loading) return <p>Loading...</p>;
+    const gathering_len = data.gathering.length
+    const post_len = data.post.length
+    const post_month_len = data.posta.length
+
+    const len = ['gathering 수 : ', gathering_len, ' / 오늘의 post 수 : ',post_len, ' / 한달전 post 수 : ',post_month_len]
+    return len
+
 }
 
 const data = {
@@ -192,16 +207,18 @@ const options = {
 const App = () => (
         <ApolloProvider client={client}>
 
-                <h2>My first Apollo app 🚀</h2>
-                <h3>Graphql</h3>
+            <h2>My first Apollo app 🚀</h2>
+            <h3>Graphql</h3>
 
-                {/*<button onclick={UserInfo.bind(this)}>dfa</button>*/}
-                <UserInfo/>
-                <UserInfo2/>
-                aaaaaaaaaa
-                <UserInfo3/>
-                {/*<Line data={data} options={options}/>*/}
-                {/*<UserInfo_test/>*/}
+            {/*<button onclick={UserInfo.bind(this)}>dfa</button>*/}
+            온라인 게더링 수 :
+            <GatheringInfo/>
+            {/*<TodayPostInfo/>*/}
+
+            {/*<AmonthAllPost/>*/}
+            <AllCount/>
+            {/*<Line data={data} options={options}/>*/}
+            {/*<UserInfo_test/>*/}
 
         </ApolloProvider>
     )
