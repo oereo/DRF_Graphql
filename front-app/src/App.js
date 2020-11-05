@@ -6,7 +6,9 @@ import {ApolloProvider} from '@apollo/react-hooks';
 import {MultiAxisLine} from './graph';
 import {Line} from "react-chartjs-2";
 import {useQuery} from "react-apollo";
-
+import NumberWidget from './NumberWidget';
+import {Chip, Avatar} from '@material-ui/core';
+import BasicTable from './table'
 
 const client = new ApolloClient({
     uri: 'http://127.0.0.1:8000/graphql', // your GraphQL Server
@@ -70,10 +72,10 @@ function GatheringInfo() {
 
     return data.gathering.map(({id, address, viewCount, reportCount, created, purpose, showBlock}) => (
 
-            <li key={id}>
-                Gathering - {id}: {viewCount}- {reportCount} - {address} - {created} - {purpose}- {showBlock}
-            </li>
+        <li key={id}>
 
+            Gathering - {id}: {viewCount}- {reportCount} - {address} - {created} - {purpose}- {showBlock}
+        </li>
     ));
 }
 
@@ -154,7 +156,7 @@ function AllCount() {
     const post_len = data.post.length
     const post_month_len = data.posta.length
 
-    const len = ['gathering 수 : ', gathering_len, ' / 오늘의 post 수 : ',post_len, ' / 한달전 post 수 : ',post_month_len]
+    const len = ['gathering 수 : ', gathering_len, ' / 오늘의 post 수 : ', post_len, ' / 한달전 post 수 : ', post_month_len]
     return len
 
 }
@@ -206,7 +208,26 @@ const options = {
 
 const App = () => (
         <ApolloProvider client={client}>
+            <BasicTable/>
+            {/*    rows=<GatheringInfo/>*/}
+            {/*/>*/}
+            <Chip
+                variant="outlined"
+                size="small"
+                avatar={<Avatar>M</Avatar>}
+                label="Clickable"
 
+            />
+            <NumberWidget
+                title="Total Profit"
+                subtitle="This month"
+                number="9.8k"
+                color="secondary"
+                progress={{
+                    value: 75,
+                    label: 'Last month',
+                }}
+            />
             <h2>My first Apollo app 🚀</h2>
             <h3>Graphql</h3>
 
