@@ -6,15 +6,59 @@ import {ApolloProvider} from '@apollo/react-hooks';
 import {MultiAxisLine} from './graph';
 import {Line} from "react-chartjs-2";
 import {useQuery} from "react-apollo";
-import NumberWidget from './NumberWidget';
-import {Chip, Avatar} from '@material-ui/core';
-import BasicTable from './table'
+import BasicTable from './table';
+import {makeStyles, ThemeProvider} from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Paper from '@material-ui/core/Paper';
+
 
 const client = new ApolloClient({
     uri: 'http://127.0.0.1:8000/graphql', // your GraphQL Server
 });
 
-var num = [];
+const useStyles = makeStyles((theme) => ({
+    root: {
+        background: theme.background,
+        border: 0,
+        fontSize: 16,
+        borderRadius: 3,
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        color: 'white',
+        height: 48,
+        padding: '0 30px',
+    },
+}));
+
+const useStyles_paper = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        '& > *': {
+            margin: theme.spacing(1),
+            width: theme.spacing(16),
+            height: theme.spacing(16),
+        },
+    },
+}));
+
+
+function DeepChild() {
+    const classes = useStyles();
+
+    return (
+        <button type="button" className={classes.root}>
+
+        </button>
+    );
+}
+
+const themeInstance = {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+};
 
 const QUERY_USERS = gql`
   query {
@@ -34,7 +78,7 @@ const QUERY_USERS = gql`
         showBlock
         topic
     },
-    posta{
+    post_relative{
         id
         created
         showBlock
@@ -50,7 +94,7 @@ function GatheringInfo() {
     // at a specified interval
     const {data, loading} = useQuery(
         QUERY_USERS, {
-            pollInterval: 2000 // refetch the result every 0.5 second
+            pollInterval: 10000 // refetch the result every 0.5 second
         }
     );
 
@@ -94,14 +138,12 @@ function TodayPostInfo() {
 
     // should handle loading status
     if (loading) return <p>Loading...</p>;
-    const rebels = data.posta.filter(data => data.topic === "gath");
+    const rebels = data.post_relative.filter(data => data.topic === "gath");
 
-    return data.posta.map(({id, created, topic, showBlock}) => (
+    return data.post_relative.map(({id, created, topic, showBlock}) => (
         {rebels},
             <li key={id}>
-
                 post - {id}: {created} - {topic} - {showBlock}
-
             </li>
 
     ));
@@ -122,14 +164,6 @@ function AmonthAllPost() {
 
     // should handle loading status
     if (loading) return <p>Loading...</p>;
-
-    // function filtering() {
-    //     for (let i = 0; i < data.gathering.length; i++) {
-    //         if (data.gathering.purpose === 'ONLINE') len_online++;
-    //         if (data.gathering.purpose === 'OFFLINE') len_offline++;
-    //     }
-    // }
-    // filtering()
 
     return data.post.map(({id, created, topic, showBlock}) => (
 
@@ -154,7 +188,7 @@ function AllCount() {
     if (loading) return <p>Loading...</p>;
     const gathering_len = data.gathering.length
     const post_len = data.post.length
-    const post_month_len = data.posta.length
+    const post_month_len = data.post_relative.length
 
     const len = ['gathering 수 : ', gathering_len, ' / 오늘의 post 수 : ', post_len, ' / 한달전 post 수 : ', post_month_len]
     return len
@@ -183,51 +217,36 @@ const data = {
     ],
 };
 
-const options = {
-    scales: {
-        yAxes: [
-            {
-                type: 'linear',
-                display: true,
-                position: 'left',
-                id: 'y-axis-1',
-            },
-            {
-                type: 'linear',
-                display: true,
-                position: 'right',
-                id: 'y-axis-2',
-                gridLines: {
-                    drawOnArea: false,
-                },
-            },
-        ],
-    },
-};
-
 
 const App = () => (
         <ApolloProvider client={client}>
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton edge="start" color="inherit" aria-label="menu">
+                        <MenuIcon/>
+                    </IconButton>
+                    <Typography variant="h6">
+                        News
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
             <BasicTable/>
-            {/*    rows=<GatheringInfo/>*/}
-            {/*/>*/}
-            <Chip
-                variant="outlined"
-                size="small"
-                avatar={<Avatar>M</Avatar>}
-                label="Clickable"
 
-            />
-            <NumberWidget
-                title="Total Profit"
-                subtitle="This month"
-                number="9.8k"
-                color="secondary"
-                progress={{
-                    value: 75,
-                    label: 'Last month',
-                }}
-            />
+            <ThemeProvider theme={themeInstance}>
+                asdfdsfdsf
+                <DeepChild>
+                    asdfasfassdfdfadfa
+                </DeepChild>
+            </ThemeProvider>
+
+            <div className={useStyles_paper.root}>
+                <Paper variant="outlined"/>
+                asdfdsf<br/>
+                asdfdf
+                <Paper variant="outlined" square/>
+            </div>
+
             <h2>My first Apollo app 🚀</h2>
             <h3>Graphql</h3>
 
