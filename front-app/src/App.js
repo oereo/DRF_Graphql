@@ -70,7 +70,6 @@ const QUERY_USERS = gql`
         created
         purpose
         showBlock
-        
     },
     post{
         id
@@ -78,12 +77,36 @@ const QUERY_USERS = gql`
         showBlock
         topic
     },
-    post_relative{
+    PostRelative{
         id
         created
         showBlock
         topic
-    }
+    },
+    gatheringRelative{
+        id
+        address
+        viewCount
+        reportCount
+        created
+        purpose
+        showBlock
+    },
+    gatheringWeek{
+        id
+        address
+        viewCount
+        reportCount
+        created
+        purpose
+        showBlock
+    },
+    postWeek{
+        id
+        created
+        showBlock
+        topic
+    },
     
 }
 `;
@@ -104,20 +127,9 @@ function GatheringInfo() {
     // should handle loading status
     if (loading) return <p>Loading...</p>;
 
-    // function filtering() {
-    //     for (let i = 0; i < data.gathering.length; i++) {
-    //         if (data.gathering.purpose === 'ONLINE') len_online++;
-    //
-    //         if (data.gathering.purpose === 'OFFLINE') len_offline++;
-    //     }
-    // }
-
-    // filtering();
-
     return data.gathering.map(({id, address, viewCount, reportCount, created, purpose, showBlock}) => (
 
         <li key={id}>
-
             Gathering - {id}: {viewCount}- {reportCount} - {address} - {created} - {purpose}- {showBlock}
         </li>
     ));
@@ -138,9 +150,9 @@ function TodayPostInfo() {
 
     // should handle loading status
     if (loading) return <p>Loading...</p>;
-    const rebels = data.post_relative.filter(data => data.topic === "gath");
+    const rebels = data.PostRelative.filter(data => data.topic === "gath");
 
-    return data.post_relative.map(({id, created, topic, showBlock}) => (
+    return data.PostRelative.map(({id, created, topic, showBlock}) => (
         {rebels},
             <li key={id}>
                 post - {id}: {created} - {topic} - {showBlock}
@@ -187,10 +199,20 @@ function AllCount() {
     );
     if (loading) return <p>Loading...</p>;
     const gathering_len = data.gathering.length
+    const gathering_month_len = data.gatheringRelative.length
     const post_len = data.post.length
-    const post_month_len = data.post_relative.length
+    const post_month_len = data.PostRelative.length
+    const gathering_week_len = data.gatheringWeek.length
+    const post_week_len = data.postWeek.length
 
-    const len = ['gathering 수 : ', gathering_len, ' / 오늘의 post 수 : ', post_len, ' / 한달전 post 수 : ', post_month_len]
+    const len = ['4주전 gathering 수 : ', gathering_len,
+        ' / 4주전 post 수 : ', post_len,
+        ' / 한달전(보정) post 수 : ', post_month_len,
+        ' / 한달전(보정) gathering 수 : ', gathering_month_len,
+        ' / 1주일 전 post 수 : ', post_week_len,
+        ' / 1주일 전 gathering 수 : ', gathering_week_len
+    ]
+
     return len
 
 }
@@ -251,11 +273,13 @@ const App = () => (
             <h3>Graphql</h3>
 
             {/*<button onclick={UserInfo.bind(this)}>dfa</button>*/}
-            온라인 게더링 수 :
-            <GatheringInfo/>
+
+            {/*모든 query 출력*/}
+            {/*온라인 게더링 수 :*/}
+            {/*<GatheringInfo/>*/}
+            {/*필터링 된 post*/}
             {/*<TodayPostInfo/>*/}
 
-            {/*<AmonthAllPost/>*/}
             <AllCount/>
             {/*<Line data={data} options={options}/>*/}
             {/*<UserInfo_test/>*/}
