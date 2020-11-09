@@ -256,9 +256,7 @@ const App = () => (
             <BasicTable/>
 
             <ThemeProvider theme={themeInstance}>
-                asdfdsfdsf
                 <DeepChild>
-                    asdfasfassdfdfadfa
                 </DeepChild>
             </ThemeProvider>
 
@@ -272,7 +270,6 @@ const App = () => (
             <h2>My first Apollo app 🚀</h2>
             <h3>Graphql</h3>
 
-            {/*<button onclick={UserInfo.bind(this)}>dfa</button>*/}
 
             {/*모든 query 출력*/}
             {/*온라인 게더링 수 :*/}
